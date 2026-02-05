@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Student Dashboard</h1>
+      <button id="themeToggle" type="button" class="btn">Toggle theme</button>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Thêm sinh viên</h2>
+        <form id="studentForm" class="grid" autocomplete="off">
+          <label>
+            Mã SV
+            <input id="studentId" required placeholder="VD: SV001" />
+          </label>
+          <label>
+            Họ tên
+            <input id="studentName" required placeholder="VD: Nguyen Van A" />
+          </label>
+          <label>
+            Lớp
+            <input id="studentClass" required placeholder="VD: D21CQCN01" />
+          </label>
+          <label>
+            Điểm (0-10)
+            <input id="studentScore" type="number" min="0" max="10" step="0.1" required />
+          </label>
+          <div class="row">
+            <button class="btn primary" type="submit">Add</button>
+            <button class="btn" type="reset">Reset</button>
+          </div>
+          <p id="formError" class="error" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Danh sách sinh viên</h2>
+        <div class="row">
+          <input id="searchInput" placeholder="Tìm theo mã/tên/lớp..." />
+          <button id="clearSearch" class="btn" type="button">Clear</button>
+        </div>
+        <div class="tableWrap">
+          <table class="table" id="studentTable">
+            <thead>
+              <tr>
+                <th>Mã</th>
+                <th>Họ tên</th>
+                <th>Lớp</th>
+                <th>Điểm</th>
+              </tr>
+            </thead>
+            <tbody id="studentTbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">CC_T2 - BaiTap3</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
