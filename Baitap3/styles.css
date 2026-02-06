@@ -110,6 +110,19 @@ body {
     color: var(--text-secondary);
 }
 
+/* Branch Info */
+.branch-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.branch-count {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
 /* Dropdown */
 .dropdown-wrapper {
     position: relative;
@@ -196,6 +209,28 @@ body {
 
 .branch-item.hidden {
     display: none;
+}
+
+/* Selected Info */
+.selected-info {
+    padding: 16px;
+    background-color: var(--bg-secondary);
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.selected-info.hidden {
+    display: none;
+}
+
+.selected-info p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.selected-info strong {
+    color: var(--accent-color);
+    font-weight: 600;
 }
 
 /* Scrollbar styling */

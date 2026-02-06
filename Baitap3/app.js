@@ -4,8 +4,12 @@ const mockBranches = [
     'feature/dark-light-theme',
     'feature/search-functionality',
     'feature/branch-display',
+    'feature/add-student-form',
+    'feature/student-display',
     'develop',
-    'main'
+    'main',
+    'hotfix/bug-fix-001',
+    'release/v1.0.0'
 ];
 
 // State
@@ -24,12 +28,16 @@ const searchInput = document.getElementById('searchInput');
 const dropdownBtn = document.getElementById('dropdownBtn');
 const dropdownMenu = document.getElementById('dropdownMenu');
 const branchList = document.getElementById('branchList');
+const branchCount = document.getElementById('branchCount');
+const selectedInfo = document.getElementById('selectedInfo');
+const selectedBranchName = document.getElementById('selectedBranchName');
 const selectedBranchDisplay = document.getElementById('selectedBranch');
 
 // Initialize
 function init() {
     applyTheme();
     renderBranches();
+    updateBranchCount();
     attachEventListeners();
 }
 
@@ -63,6 +71,7 @@ function filterBranches(searchTerm) {
     }
     
     renderBranches();
+    updateBranchCount();
 }
 
 // Render branches in dropdown
@@ -85,8 +94,22 @@ function renderBranches() {
 function selectBranch(branch) {
     state.selectedBranch = branch;
     selectedBranchDisplay.textContent = branch;
+    selectedBranchName.textContent = branch;
+    
+    // Show selected info
+    selectedInfo.classList.remove('hidden');
+    
+    // Close dropdown
     closeDropdown();
+    
+    // Update active state
     renderBranches();
+}
+
+// Update branch count
+function updateBranchCount() {
+    const count = state.filteredBranches.length;
+    branchCount.textContent = `Branches (${count})`;
 }
 
 // Dropdown Management
