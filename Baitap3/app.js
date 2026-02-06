@@ -11,6 +11,7 @@ const mockBranches = [
 // State
 let state = {
     branches: mockBranches,
+    filteredBranches: mockBranches,
     selectedBranch: null,
     isDarkMode: localStorage.getItem('darkMode') === 'true',
     isDropdownOpen: false
@@ -19,6 +20,7 @@ let state = {
 // DOM Elements
 const app = document.getElementById('app');
 const themeToggle = document.getElementById('themeToggle');
+const searchInput = document.getElementById('searchInput');
 const dropdownBtn = document.getElementById('dropdownBtn');
 const dropdownMenu = document.getElementById('dropdownMenu');
 const branchList = document.getElementById('branchList');
@@ -48,11 +50,26 @@ function toggleTheme() {
     applyTheme();
 }
 
+// Search/Filter Functionality
+function filterBranches(searchTerm) {
+    const term = searchTerm.toLowerCase().trim();
+    
+    if (term === '') {
+        state.filteredBranches = [...state.branches];
+    } else {
+        state.filteredBranches = state.branches.filter(branch =>
+            branch.toLowerCase().includes(term)
+        );
+    }
+    
+    renderBranches();
+}
+
 // Render branches in dropdown
 function renderBranches() {
     branchList.innerHTML = '';
     
-    state.branches.forEach(branch => {
+    state.filteredBranches.forEach(branch => {
         const li = document.createElement('li');
         li.className = 'branch-item';
         if (state.selectedBranch === branch) {
@@ -81,6 +98,7 @@ function openDropdown() {
     state.isDropdownOpen = true;
     dropdownMenu.classList.remove('hidden');
     dropdownBtn.classList.add('active');
+    searchInput.focus();
 }
 
 function closeDropdown() {
@@ -94,13 +112,19 @@ function attachEventListeners() {
     // Theme toggle
     themeToggle.addEventListener('click', toggleTheme);
     
+    // Search input
+    searchInput.addEventListener('input', (e) => {
+        filterBranches(e.target.value);
+    });
+    
     // Dropdown button
     dropdownBtn.addEventListener('click', toggleDropdown);
     
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
         const isClickInsideDropdown = dropdownBtn.contains(e.target) || 
-                                     dropdownMenu.contains(e.target);
+                                     dropdownMenu.contains(e.target) ||
+                                     searchInput.contains(e.target);
         if (!isClickInsideDropdown && state.isDropdownOpen) {
             closeDropdown();
         }
