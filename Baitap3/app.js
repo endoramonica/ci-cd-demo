@@ -12,10 +12,13 @@ const mockBranches = [
 let state = {
     branches: mockBranches,
     selectedBranch: null,
+    isDarkMode: localStorage.getItem('darkMode') === 'true',
     isDropdownOpen: false
 };
 
 // DOM Elements
+const app = document.getElementById('app');
+const themeToggle = document.getElementById('themeToggle');
 const dropdownBtn = document.getElementById('dropdownBtn');
 const dropdownMenu = document.getElementById('dropdownMenu');
 const branchList = document.getElementById('branchList');
@@ -23,8 +26,26 @@ const selectedBranchDisplay = document.getElementById('selectedBranch');
 
 // Initialize
 function init() {
+    applyTheme();
     renderBranches();
     attachEventListeners();
+}
+
+// Theme Management
+function applyTheme() {
+    if (state.isDarkMode) {
+        app.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+    } else {
+        app.classList.remove('dark-mode');
+        themeToggle.textContent = '🌙';
+    }
+}
+
+function toggleTheme() {
+    state.isDarkMode = !state.isDarkMode;
+    localStorage.setItem('darkMode', state.isDarkMode);
+    applyTheme();
 }
 
 // Render branches in dropdown
@@ -70,6 +91,9 @@ function closeDropdown() {
 
 // Event Listeners
 function attachEventListeners() {
+    // Theme toggle
+    themeToggle.addEventListener('click', toggleTheme);
+    
     // Dropdown button
     dropdownBtn.addEventListener('click', toggleDropdown);
     
