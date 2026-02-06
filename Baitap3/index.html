@@ -8,28 +8,14 @@
 </head>
 <body>
     <div id="app" class="app">
+        <!-- Header -->
         <header class="header">
             <h1>Git Branch Manager</h1>
-            <button id="themeToggle" class="theme-toggle">🌙</button>
         </header>
         
+        <!-- Main Container -->
         <main class="container">
             <div class="branch-manager">
-                <!-- Search input -->
-                <div class="search-section">
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        class="search-input" 
-                        placeholder="Search branches..."
-                    >
-                </div>
-
-                <!-- Branch count -->
-                <div class="branch-info">
-                    <span id="branchCount" class="branch-count">Branches (0)</span>
-                </div>
-
                 <!-- Branch dropdown -->
                 <div class="dropdown-wrapper">
                     <button id="dropdownBtn" class="dropdown-btn">
@@ -42,11 +28,6 @@
                             <!-- Branches will be populated here -->
                         </ul>
                     </div>
-                </div>
-
-                <!-- Selected branch info -->
-                <div id="selectedInfo" class="selected-info hidden">
-                    <p>Selected: <strong id="selectedBranchName"></strong></p>
                 </div>
             </div>
         </main>

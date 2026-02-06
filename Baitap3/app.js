@@ -4,80 +4,34 @@ const mockBranches = [
     'feature/dark-light-theme',
     'feature/search-functionality',
     'feature/branch-display',
-    'feature/add-student-form',
-    'feature/student-display',
     'develop',
-    'main',
-    'hotfix/bug-fix-001',
-    'release/v1.0.0'
+    'main'
 ];
 
 // State
 let state = {
     branches: mockBranches,
-    filteredBranches: mockBranches,
     selectedBranch: null,
-    isDarkMode: localStorage.getItem('darkMode') === 'true',
     isDropdownOpen: false
 };
 
 // DOM Elements
-const app = document.getElementById('app');
-const themeToggle = document.getElementById('themeToggle');
-const searchInput = document.getElementById('searchInput');
 const dropdownBtn = document.getElementById('dropdownBtn');
 const dropdownMenu = document.getElementById('dropdownMenu');
 const branchList = document.getElementById('branchList');
-const branchCount = document.getElementById('branchCount');
-const selectedInfo = document.getElementById('selectedInfo');
-const selectedBranchName = document.getElementById('selectedBranchName');
 const selectedBranchDisplay = document.getElementById('selectedBranch');
 
 // Initialize
 function init() {
-    applyTheme();
     renderBranches();
     attachEventListeners();
-}
-
-// Theme Management
-function applyTheme() {
-    if (state.isDarkMode) {
-        app.classList.add('dark-mode');
-        themeToggle.textContent = '☀️';
-    } else {
-        app.classList.remove('dark-mode');
-        themeToggle.textContent = '🌙';
-    }
-}
-
-function toggleTheme() {
-    state.isDarkMode = !state.isDarkMode;
-    localStorage.setItem('darkMode', state.isDarkMode);
-    applyTheme();
-}
-
-// Search/Filter Functionality
-function filterBranches(searchTerm) {
-    const term = searchTerm.toLowerCase().trim();
-    
-    if (term === '') {
-        state.filteredBranches = [...state.branches];
-    } else {
-        state.filteredBranches = state.branches.filter(branch =>
-            branch.toLowerCase().includes(term)
-        );
-    }
-    
-    renderBranches();
-    updateBranchCount();
 }
 
 // Render branches in dropdown
 function renderBranches() {
     branchList.innerHTML = '';
     
-    state.filteredBranches.forEach(branch => {
+    state.branches.forEach(branch => {
         const li = document.createElement('li');
         li.className = 'branch-item';
         if (state.selectedBranch === branch) {
@@ -93,15 +47,7 @@ function renderBranches() {
 function selectBranch(branch) {
     state.selectedBranch = branch;
     selectedBranchDisplay.textContent = branch;
-    selectedBranchName.textContent = branch;
-    
-    // Show selected info
-    selectedInfo.classList.remove('hidden');
-    
-    // Close dropdown
     closeDropdown();
-    
-    // Update active state
     renderBranches();
 }
 
@@ -114,7 +60,6 @@ function openDropdown() {
     state.isDropdownOpen = true;
     dropdownMenu.classList.remove('hidden');
     dropdownBtn.classList.add('active');
-    searchInput.focus();
 }
 
 function closeDropdown() {
@@ -123,22 +68,8 @@ function closeDropdown() {
     dropdownBtn.classList.remove('active');
 }
 
-// Update branch count
-function updateBranchCount() {
-    const count = state.filteredBranches.length;
-    branchCount.textContent = `Branches (${count})`;
-}
-
 // Event Listeners
 function attachEventListeners() {
-    // Theme toggle
-    themeToggle.addEventListener('click', toggleTheme);
-    
-    // Search input
-    searchInput.addEventListener('input', (e) => {
-        filterBranches(e.target.value);
-    });
-    
     // Dropdown button
     dropdownBtn.addEventListener('click', toggleDropdown);
     
