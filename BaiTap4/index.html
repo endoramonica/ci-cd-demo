@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app" class="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>Student Management System</h1>
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+        </header>
+
+        <!-- Main Container -->
+        <main class="container">
+            <!-- Add/Edit Student Form -->
+            <section class="form-section">
+                <h2 id="formTitle">Add New Student</h2>
+                <form id="studentForm" class="student-form">
+                    <input type="hidden" id="studentId" value="">
+
+                    <div class="form-group">
+                        <label for="studentName">Name *</label>
+                        <input type="text" id="studentName" class="form-input" placeholder="Enter student name"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentClass">Class *</label>
+                        <input type="text" id="studentClass" class="form-input" placeholder="Enter class (e.g., 10A1)"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="studentGrade">Grade (0-10) *</label>
+                        <input type="number" id="studentGrade" class="form-input" placeholder="Enter grade" min="0"
+                            max="10" step="0.1" required>
+                    </div>
+
+                    <div class="form-errors" id="formErrors"></div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Add Student</button>
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Students Table -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h2>Students List</h2>
+                    <span id="studentCount" class="student-count">Total: 0</span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="students-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Class</th>
+                                <th>Grade</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Students will be rendered here -->
+                        </tbody>
+                    </table>
+
+                    <div id="emptyState" class="empty-state">
+                        <p>No students found. Add your first student!</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Confirm Deletion</h3>
+                <p id="confirmMessage">Are you sure you want to delete this student?</p>
+                <div class="modal-actions">
+                    <button class="btn btn-danger" id="confirmDelete">Delete</button>
+                    <button class="btn btn-secondary" id="cancelDelete">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="modules/student-crud.js"></script>
+    <script src="modules/bulk-actions.js"></script>
+    <script src="app.js"></script>
+    <!-- Optional: Uncomment to enable demo data loader -->
+    <!-- <script src="demo-data.js"></script> -->
+</body>
+
+</html>
