@@ -1,25 +1,23 @@
-name: Deploy to GitHub Pages
+name: Refactor workflow for GitHub Pages deployment
 
 on:
   push:
     branches:
       - main
+      - CI/CD  # Thêm branch này nếu bạn muốn chạy từ cả 2 branch
+
+permissions:
+  contents: write  # Đây là dòng cực kỳ quan trọng để sửa lỗi 403
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Build
-        run: |
-          mkdir public
-          echo "<h1>Hello CI/CD GitHub</h1>" > public/index.html
+      - name: Checkout
+        uses: actions/checkout@v4 # Nên nâng cấp lên v4 luôn
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4 # Nên nâng cấp lên v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./
