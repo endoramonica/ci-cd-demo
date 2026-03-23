@@ -1,0 +1,51 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# ─── BUILD STAGE ────────────────────────────────────────────────────────────
+build:
+  stage: build
+  script:
+    - echo "Building the project..."
+    - echo "Build completed at $(date)"
+  artifacts:
+    paths:
+      - BaiTap7/public/
+    expire_in: 1 day
+  # Chạy trên mọi branch (kể cả MR) - phục vụ CI
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ─── TEST STAGE ─────────────────────────────────────────────────────────────
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - test -f BaiTap7/public/index.html   && echo "index.html   OK" || exit 1
+    - test -f BaiTap7/public/styles.css   && echo "styles.css   OK" || exit 1
+    - test -f BaiTap7/public/js/main.js   && echo "main.js      OK" || exit 1
+    - echo "All checks passed!"
+  # Chỉ chạy CI (build + test) trong Merge Request - KHÔNG deploy
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ─── DEPLOY STAGE ───────────────────────────────────────────────────────────
+# Job tên "pages" là tên đặc biệt để GitLab Pages hoạt động
+pages:
+  stage: deploy
+  script:
+    - echo "Deploying to GitLab Pages..."
+    - cp -r BaiTap7/public public
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 day
+  rules:
+    # Chỉ chạy trên main branch, KHÔNG chạy trong MR
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      # when: manual → deploy thủ công, phải bấm nút mới chạy
+      when: manual
+      allow_failure: false
